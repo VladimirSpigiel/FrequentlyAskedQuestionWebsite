@@ -1,0 +1,10 @@
+{% if articles|length > 0 %}
+    <h4>Dans les articles : <span class="badge">{{ articles|length }}</span></h4>
+    <div class="list-group">
+        {% for article in articles %}
+            <a href="{{ path('allotools_faq_display_article_content', {'id' : article.id}) }}" class="list-group-item">{{ article.titre }}</a>
+        {% endfor %}
+    </div>
+{% else %}
+    <h4>Aucun article trouvé</h4>
+{% endif %}

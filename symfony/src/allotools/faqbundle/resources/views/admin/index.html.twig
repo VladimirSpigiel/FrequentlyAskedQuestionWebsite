@@ -1,0 +1,92 @@
+{% extends "AllotoolsFaqBundle:Admin:layout.html.twig" %}
+
+{% block entete %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {{ parent() }}
+{% endblock %}
+
+{% block general %}
+    {{ parent() }}
+    <br><br>
+    <div class="row">
+
+        <div class="btn-group">
+            <a href="{{ path('allotools_faq_manageusers') }}">
+                <button class="btn btn-default btn-circle btn-xl user" data-toggle="tooltip" data-placement="bottom"
+                        title="Utilisateurs">
+                    <span class="glyphicon glyphicon-user"></span>
+                </button>
+            </a>
+
+
+            <a href="{{ path('allotools_faq_manageprofiles') }}">
+                <button class="btn btn-default btn-circle space-md btn-xl profil" data-toggle="tooltip"
+                        data-placement="bottom" title="Profils">
+                    <span class="glyphicon glyphicon-wrench"></span>
+                </button>
+            </a>
+        </div>
+
+        <div class="btn-group">
+            <a href="{{ path('allotools_faq_manageservers') }}">
+                <button class="btn btn-default btn-circle btn-xl server" data-toggle="tooltip" data-placement="bottom"
+                        title="Serveurs">
+                    <span class="glyphicon glyphicon-hdd"></span>
+                </button>
+            </a>
+            <a href="{{ path('allotools_faq_manage_articles') }}">
+                <button class="btn btn-default btn-circle btn-xl article" data-toggle="tooltip" data-placement="bottom"
+                        title="Articles">
+                    <span class="glyphicon glyphicon-file"></span>
+                </button>
+            </a>
+            <a href="{{ path('allotools_faq_manage_categories') }}">
+                <button class="btn btn-default btn-circle btn-xl categ" data-toggle="tooltip" data-placement="bottom"
+                        title="Catégories">
+                    <span class="glyphicon glyphicon-folder-open"></span>
+                </button>
+            </a>
+            <a href="{{ path('allotools_faq_statistiques_articles') }}">
+                <button class="btn btn-default btn-circle space-md btn-xl stat" data-toggle="tooltip"
+                        data-placement="bottom" title="Statistiques">
+                    <span class="glyphicon glyphicon-stats"></span>
+                </button>
+            </a>
+        </div>
+
+        <div class="btn-group">
+            <a href="{{ path('allotools_faq_manage_arbres') }}">
+                <button class="btn btn-default btn-circle btn-xl arbre" data-toggle="tooltip" data-placement="bottom"
+                        title="Arbres">
+                    <span class="glyphicon glyphicon-tree-deciduous"></span>
+                </button>
+            </a>
+            <a href="{{ path('allotools_faq_manage_questions') }}">
+                <button class="btn btn-default btn-circle btn-xl question" data-toggle="tooltip" data-placement="bottom"
+                        title="Questions">
+                    <span class="glyphicon glyphicon-question-sign"></span>
+                </button>
+            </a>
+        </div>
+
+
+    </div>
+    <br><br>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/custom.css') }}" type="text/css"/>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $("button").tooltip();
+        })
+    </script>
+{% endblock %}

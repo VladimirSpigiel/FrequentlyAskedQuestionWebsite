@@ -1,0 +1,72 @@
+{% extends "AllotoolsFaqBundle:Admin:layout.html.twig" %}
+
+{% block entete %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {{ parent() }}
+{% endblock %}
+
+{% block general %}
+    {{ parent() }}
+    <div class="container">
+        <h3>Ajouter un serveur</h3>
+        {% for flashMessage in app.session.flashbag.get('erreur') %}
+            <div class="row col-sm-6 col-sm-offset-3">
+                <div class="alert alert-danger">
+                    {{ flashMessage }}
+                </div>
+            </div>
+        {% endfor %}
+        <div class="well col-sm-6 col-sm-offset-3">
+            <form method="post" class="text-left" role="form" {{ form_enctype(form) }}>
+                <div class="form-group">
+                    {{ form_errors(form.lib) }}
+                    {{ form_label(form.lib, 'Libellé') }}
+                    {{ form_widget(form.lib, {'attr': {'class': 'form-control', 'placeholder': 'Libellé du serveur' }}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_errors(form.host) }}
+                    {{ form_label(form.host, 'Host') }}
+                    {{ form_widget(form.host, {'attr': {'class': 'form-control', 'placeholder': 'localhost, ...' }}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_errors(form.user) }}
+                    {{ form_label(form.user, 'Login') }}
+                    {{ form_widget(form.user, {'attr': {'class': 'form-control', 'placeholder': 'root, ...' }}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_errors(form.pwd) }}
+                    {{ form_label(form.pwd, 'Mot de passe') }}
+                    {{ form_widget(form.pwd, {'attr': {'class': 'form-control', 'placeholder': '' }}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_errors(form.dbname) }}
+                    {{ form_label(form.dbname, 'Nom de la base de données') }}
+                    {{ form_widget(form.dbname, {'attr': {'class': 'form-control', 'placeholder': 'phpmyfaq, ...' }}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_errors(form.tbname) }}
+                    {{ form_label(form.tbname, 'Nom de la table contenant les articles') }}
+                    {{ form_widget(form.tbname, {'attr': {'class': 'form-control', 'placeholder': 'faqdata, ...' }}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_errors(form.type_bdd) }}
+                    {{ form_label(form.type_bdd, 'Type de base de données') }}
+                    {{ form_widget(form.type_bdd, {'attr': {'class': 'form-control', 'placeholder': 'mysql, postgresql, ...' }}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_errors(form.type_service) }}
+                    {{ form_label(form.type_service, 'Nom du service à instancier') }}
+                    {{ form_widget(form.type_service, {'attr': {'class': 'form-control', 'placeholder': 'ServiceMajPHPMyFaq, ...' }}) }}
+                </div>
+                {{ form_rest(form) }}
+                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <a class="btn btn-default" href="{{ path('allotools_faq_manageservers') }}">Retour</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "AllotoolsFaqBundle:Admin:layout.html.twig" %}
+
+{% block titre %}
+    {{ parent() }} - Modifier un article
+{% endblock %}
+
+{% block entete %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {{ parent() }}
+{% endblock %}
+
+{% block general %}
+    {{ parent() }}
+    <div class="container">
+        <h3>Modifier l'article</h3>
+        <div class="well col-sm-6 col-sm-offset-3">
+            <form method="post" class="text-left" role="form" {{ form_enctype(form) }}>
+
+                <div class="form-group">
+                    {{ form_errors(form.categories) }}
+                    {{ form_label(form.categories, 'Catégories') }}
+                    {{ form_widget(form.categories, {'attr': {'class': 'form-control' }}) }}
+                </div>
+
+                {{ form_rest(form) }}
+                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Modifier</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <a class="btn btn-default" href="{{ path('allotools_faq_manage_articles') }}">Retour</a>
+    </div>
+{% endblock %}

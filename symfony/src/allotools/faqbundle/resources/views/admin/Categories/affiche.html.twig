@@ -1,0 +1,60 @@
+{% extends "AllotoolsFaqBundle:Admin:layout.html.twig" %}
+
+{% block titre %}
+    {{ parent() }} - Liste des catégories
+{% endblock %}
+
+{% block entete %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {{ parent() }}
+{% endblock %}
+
+{% block general %}
+    {{ parent() }}
+    <a href="{{ path('allotools_faq_managecategories_add') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Créer une catégorie</a>
+    <h3>Liste des catégories</h3>
+    <table class="table table-responsive table-bordered table-striped table-hover text-left">
+        <thead class="bg-info">
+            <tr>
+                <th>Libéllé</th> <th>Profils</th> <th class="text-center">Publique</th> <th class="text-center">Modifier</th> <th class="text-center">Supprimer</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for categorie in categories %}
+                <tr>
+                    <td>{{ categorie.lib }}</td>
+                    {% if categorie.profil|length > 0  %}
+                       <td>
+                           <label class="sr-only" for="select_profil_{{ categorie.id }}">Sélectionnez un profil</label>
+                           <select id="select_profil_{{ categorie.id }}">
+                           {% for profil in categorie.profil %}
+                               <option>{{  profil.libelle }}</option>
+                           {% endfor %}
+                           </select>({{ categorie.profil|length }})
+                       </td>
+                    {% else %}
+                        <td>Aucun profil</td>
+                    {% endif %}
+                    <td class="text-center">
+                    {% if categorie.public %}
+                        <span class="text-success glyphicon glyphicon-eye-open"></span>
+                    {% else %}
+                        <span class="text-muted glyphicon glyphicon-eye-close"></span>
+                    {% endif %}
+                    </td>
+                    <td class="text-center">
+                        <a href="{{ path('allotools_faq_managecategoriesedit', {'id' : categorie.id}) }}"><span class="text-warning glyphicon glyphicon-pencil"></span></a>
+                    </td>
+                    <td class="text-center">
+                        <a href="{{ path('allotools_faq_managecategoriesdelete', {'id' : categorie.id}) }}" onclick="return confirm('Attention, êtes-vous sûr de vouloir supprimer la catégorie {{ categorie.lib }} ?')"><span class="text-danger glyphicon glyphicon-remove"></span></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a class="btn btn-default" href="{{ path('allotools_faq_admin') }}">Retour</a>
+
+{% endblock %}

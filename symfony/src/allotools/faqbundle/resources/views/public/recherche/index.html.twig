@@ -1,0 +1,45 @@
+{% extends "AllotoolsFaqBundle:Public:layout.html.twig" %}
+
+    {% block entete %}
+        {{ parent() }}
+    {% endblock %}
+
+    {% block menu %}
+        {{ parent() }}
+    {% endblock %}
+
+    {% block general %}
+        <div class="row">
+            <div class="alert bg-primary col-sm-6 col-sm-offset-3">
+                <h2>Résultats</h2>
+                {% if arbres|length > 0 %}
+                    <h4>Dans l'aide accompagnée : <span class="badge">{{ arbres|length }}</span></h4>
+                    <div class="list-group">
+                        {% for arbre in arbres %}
+                            <a href="{{ path('allotools_question', { 'id': arbre.id }) }}"
+                               class="list-group-item">{{ arbre.libelle }}</a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <!--<h4>Aucun arbre trouvé</h4>-->
+                {% endif %}
+
+                {% include "AllotoolsFaqBundle:Public/Affiche/Article/Liste:layout.html.twig" %}
+
+                {% if categories|length > 0 %}
+                    <h4>Dans les catégories : <span class="badge">{{ categories|length }}</span></h4>
+                    <div class="list-group">
+                        {% for categorie in categories %}
+                            <a href="{{ path('allotools_faq_display_category_content', {'route' : categorie.route}) }}"
+                               class="list-group-item">{{ categorie.lib }}</a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <h4>Aucune catégorie trouvée</h4>
+                {% endif %}
+            </div>
+        </div>
+        <div class="alert">
+            <a class="btn btn-default" href="{{ path('allotools_faq_homepage') }}">Retour</a>
+        </div>
+    {% endblock %}

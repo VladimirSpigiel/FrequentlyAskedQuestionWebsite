@@ -1,0 +1,66 @@
+{% extends "AllotoolsFaqBundle:Admin:layout.html.twig" %}
+
+{% block titre %}
+    {{ parent() }} - Liste des articles
+{% endblock %}
+
+{% block entete %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {{ parent() }}
+{% endblock %}
+
+{% block general %}
+    {{ parent() }}
+        <h3>Liste des articles</h3>
+        <table class="table table-bordered table-responsive table-striped table-hover text-left">
+            <thead class="bg-info">
+                <tr>
+                    <th>Titre</th>
+                    <th>Auteur</th>
+                    <th>Date</th>
+                    <th>Catégorie(s)</th>
+                    <th>Serveur</th>
+                    <th class="text-center">Actif</th>
+                    <th class="text-center">Modifier</th>
+                    <!-- <th>Supprimer</th> -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for article in articles %}
+                    <tr>
+                        <td>{{ article.titre }}</td>
+                        <td>{{ article.auteur }}</td>
+                        <td>{{ article.date|date("d/m/Y à h:m:s") }}</td>
+                        <td>
+                            {% if article.categories|length > 0 %}
+                                <label class="sr-only" for="select_categ_{{ article.id }}">Catégorie</label>
+                                <select id="select_categ_{{ article.id }}">
+                                    {% for categorie in article.categories %}
+                                        <option>{{ categorie }}</option>
+                                    {% endfor %}
+                                </select>
+                            {% else %}
+                                Aucune catégorie
+                            {% endif %}
+                        </td>
+                        <td>{{ article.server.lib }}</td>
+                        <td class="text-center">
+                            {% if article.actif %}
+                                <span class="text-success glyphicon glyphicon-eye-open"></span>
+                            {% else %}
+                                <span class="text-muted glyphicon glyphicon-eye-close"></span>
+                            {% endif %}
+                        </td>
+                        <td class="text-center">
+                            <a href="{{ path('allotools_faq_manage_articles_edit', {'id' : article.id}) }}"><span class="glyphicon glyphicon-pencil text-warning"></span></a>
+                        </td>
+                        <!--  <td><a href="Supprimer/{{ article.id }}">X</a></td> -->
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a class="btn btn-default" href="{{ path('allotools_faq_admin') }}">Retour</a>
+{% endblock %}

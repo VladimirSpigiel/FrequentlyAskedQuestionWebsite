@@ -1,0 +1,56 @@
+{% extends "AllotoolsFaqBundle:Admin:layout.html.twig" %}
+
+{% block entete %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {{ parent() }}
+{% endblock %}
+
+{% block general %}
+    {{ parent() }}
+    <a href="{{ path('allotools_faq_manageprofilesadd') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Créer un profil</a>
+    <h3>Liste des profils</h3>
+    <table class="text-left table table-bordered table-striped table-hover">
+        <thead class="bg-info">
+            <tr>
+                <th>Libéllé</th>
+                <th>Roles</th>
+                <th>Description</th>
+                <th class="text-center">Modifier</th>
+                <th class="text-center">Supprimer</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for profil in profils %}
+            <tr>
+                <td>{{ profil.libelle }}</td>
+                <td>
+                    <label class="sr-only" for="select_profil_{{ profil.id }}">Roles</label>
+                    <select id="select_profil_{{ profil.id }}">
+                    {% for role in profil.role %}
+                       <option>{{ role }}</option>
+                    {% endfor %}
+                    </select>
+                    ({{ profil.role|length }})
+                </td>
+                <td>
+                    {% if profil.description != "" %}
+                        {{ profil.description }}
+                    {% else %}
+                        Aucune description
+                    {% endif %}
+                </td>
+                <td class="text-center">
+                    <a href="{{ path('allotools_faq_manageprofilesedit', {'id' : profil.id}) }}"><span class="glyphicon glyphicon-pencil text-warning"></span></a>
+                </td>
+                <td class="text-center">
+                    <a href="{{ path('allotools_faq_manageprofilesdelete', {'id' : profil.id}) }}" onclick="return confirm('Attention, êtes-vous sûr de vouloir supprimer le profil {{ profil.libelle }} ?')"><span class="glyphicon glyphicon-remove text-danger"></span></a>
+                </td>
+             </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a class="btn btn-default" href="{{ path('allotools_faq_admin') }}">Retour</a>
+{% endblock %}

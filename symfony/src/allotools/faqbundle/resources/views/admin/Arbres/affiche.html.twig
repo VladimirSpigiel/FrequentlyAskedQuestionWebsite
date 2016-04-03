@@ -1,0 +1,63 @@
+{% extends "AllotoolsFaqBundle:Admin:layout.html.twig" %}
+
+
+    {% block entete %}
+        {{ parent() }}
+    {% endblock %}
+
+    {% block menu %}
+        {{ parent() }}
+    {% endblock %}
+
+    {% block general %}
+        {{ parent() }}
+
+            <a href="{{ path('allotools_faq_manage_arbres_ajoute') }}" class="btn btn-success">
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    Créer un arbre
+                </a>
+
+            <h3>Liste des arbres</h3>
+            <table class="table table-bordered table-hover table-striped text-left">
+                <thead class="bg-info">
+                    <tr>
+                        <th>Libéllé</th>
+                        <th>Catégorie</th>
+
+                        <th class="text-center">Complet</th>
+                        <th class="text-center">Modifier</th>
+                        <th class="text-center">Supprimer</th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for arbre in arbres %}
+                    <tr>
+
+                            <td >{{ arbre.libelle }}</td>
+                            <td>{{ arbre.categorie.lib }}</td>
+                            <td class="text-center">
+                                {% if arbre.actif %}
+                                    <span class="text-success glyphicon glyphicon-thumbs-up"></span>
+                                {% else %}
+                                    <span class="text-danger glyphicon glyphicon-thumbs-down"></span>
+                                {% endif %}
+                            </td>
+                            <td class="text-center"><a href="{{ path("allotools_faq_manage_arbres_modifie", {id:arbre.id}) }}"><span class="glyphicon glyphicon-pencil text-warning"></span></a></td>
+                            <td class="text-center">
+                                <a href="{{ path("allotools_faq_manage_arbres_supprime", {id:arbre.id}) }}"
+                                onclick="return confirm('Attention, êtes-vous sûr de vouloir supprimer cet arbre ?')">
+                                    <span class="glyphicon glyphicon-remove text-danger">
+
+                                    </span>
+                                </a>
+                            </td>
+
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <br>
+            <a href="{{ path('allotools_faq_admin') }}" class="btn btn-default">Retour</a>
+
+    {% endblock %}

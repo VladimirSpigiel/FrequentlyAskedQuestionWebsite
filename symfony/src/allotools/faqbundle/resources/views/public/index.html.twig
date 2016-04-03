@@ -1,0 +1,19 @@
+{% extends "AllotoolsFaqBundle:Public:layout.html.twig" %}
+
+{% block entete %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {{ parent() }}
+{% endblock %}
+
+{% block general %}
+    {{ parent() }}
+    <h3 class="text-primary">Questions les plus fréquentes</h3>
+    <div class="list-group col-sm-6 col-sm-offset-3">
+        {% for arbre in arbres %}
+            <a class="list-group-item list-group-item-warning" href="{{ path('allotools_question', { 'id': arbre.id }) }}"><b>{{ arbre.libelle }}</b></a>
+        {% endfor %}
+    </div>
+{% endblock %}

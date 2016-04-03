@@ -1,0 +1,37 @@
+{% extends "AllotoolsFaqBundle:Admin:layout.html.twig" %}
+
+{% block entete %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {{ parent() }}
+{% endblock %}
+
+{% block general %}
+    {{ parent() }}
+    <div class="container">
+        <h3>Créer une question</h3>
+        {% for flashMessage in app.session.flashbag.get('erreur') %}
+            <div class="row col-sm-6 col-sm-offset-3">
+                <div class="alert alert-danger">
+                    {{ flashMessage }}
+                </div>
+            </div>
+        {% endfor %}
+        <div class="well col-sm-6 col-sm-offset-3">
+            <form method="post" class="text-left" role="form" {{ form_enctype(form) }}>
+                <div class="form-group">
+                    {{ form_errors(form.libelle) }}
+                    {{ form_label(form.libelle, 'Libellé') }}
+                    {{ form_widget(form.libelle, {'attr': {'class': 'form-control', 'placeholder': 'Libellé de la question' }}) }}
+                </div>
+                {{ form_rest(form) }}
+                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <a class="btn btn-default" href="{{ path('allotools_faq_manage_questions') }}">Retour</a>
+    </div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "AllotoolsFaqBundle:Public:layout.html.twig" %}
+
+{% block entete %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {{ parent() }}
+{% endblock %}
+
+{% block general %}
+
+    <div class="row">
+        <a class="btn btn-default" href="{{ path('allotools_faq_homepage') }}">Retour</a>
+    </div>
+    <div class="col-sm-6 col-sm-offset-3">
+        {% if articles|length > 0 %}
+            <h4>Liste des articles</h4>
+            <div class="list-group">
+                {% for article in articles %}
+                    <a href="{{ path('allotools_faq_display_article_content', {'id' : article.id}) }}"
+                       class="list-group-item list-group-item-info">{{ article.titre }}</a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <h4>Aucun articles trouvés</h4>
+        {% endif %}
+    </div>
+{% endblock %}

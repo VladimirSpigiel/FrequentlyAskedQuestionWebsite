@@ -1,0 +1,123 @@
+{% extends "AllotoolsFaqBundle:Admin:layout.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/statistiques.css') }}" type="text/css"/>
+{% endblock %}
+
+{% block entete %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {{ parent() }}
+{% endblock %}
+
+{% block general %}
+    {{ parent() }}
+    <p class="well h4">
+        Statistiques par categorie<br><br>
+        Année : {{ annee }}
+    </p>
+
+    <!-- <canvas id="canvas" height="100" width="500" style="width:100%; height: 450px;"></canvas>-->
+    <form method="post" action="{{ path('allotools_faq_statistiques_categories') }}" name="formDate">
+        <div class="col-sm-2 col-sm-offset-5">
+            <div class="form-group">
+                <select class="form-control" name="annee" onChange="document.forms['formDate'].submit();">
+                    <option {% if(annee=="Toutes les années") %} selected {% endif %} value="{{ "Toutes les années" }}">Toutes les années</option>
+                    {% for i in anneeMin..anneeMax %}
+                        <option {% if(annee==i) %} selected {% endif %} value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+    </form>
+
+    <div class="row">
+        <div class="col-sm-6 col-sm-offset-3">
+            <div class="panel panel-success panel-link">
+                <div class="panel-heading" data-toggle="collapse" data-target="#categories_positives">Catégories à majorité de votes positifs</div>
+                <div class="list-group collapse in" id="categories_positives">
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-sm-offset-3 panel-link">
+            <div class="panel panel-danger">
+                <div class="panel-heading" data-toggle="collapse" data-target="#categories_negatives">Catégories à majorité de votes négatifs</div>
+                <div class="list-group collapse in" id="categories_negatives">
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="btn btn-default" href="{{ path('allotools_faq_statistiques_articles') }}">Retour</a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+
+        var nom = new Array();
+        var positifs = new Array();
+        var negatifs = new Array();
+        var vues = new Array();
+        var route = new Array();
+
+        {% for categorie in categories %}
+        nom.push('{{ categorie.lib|raw }}')
+        {% endfor %}
+
+        {% for categorie in categories %}
+        route.push('{{ categorie.route|raw }}')
+        {% endfor %}
+
+        {% for positif in positifs %}
+        positifs.push({{ positif }})
+        {% endfor %}
+
+        {% for negatif in negatifs %}
+        negatifs.push({{ negatif }})
+        {% endfor %}
+
+        {% for vue in vues %}
+        vues.push({{ vue }})
+        {% endfor %}
+
+        var nb_positif = 0;
+        var nb_negatif = 0;
+
+        nom.forEach(function (data, key) {
+            var path = "{{ path('allotools_faq_statistiques_article_dans_categorie', { 'route': "PLACEHOLDER" }) }}";
+            path = path.replace("PLACEHOLDER", route[key]);
+
+            $appendData = '' +
+                    '<a href="' + path + '" class="list-group-item">' +
+                    '<h4 class="list-group-item-heading">' + data + ' - Nombre de consultations :  ' + vues[key] + '</h4>' +
+                    '<p class="list-group-item-text">' +
+                    '<span class="glyphicon glyphicon-thumbs-up text-success"></span> ' + positifs[key] +
+                    '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;' +
+                    '<span class="glyphicon glyphicon-thumbs-down text-danger"></span> ' + negatifs[key] + '</p>' +
+                    '</a>' +
+                    '';
+
+            $no_data = '<div class="list-group-item">' +
+                    '<h4 class="list-group-item-heading">Aucunes catégories</h4> ' +
+                    '</div>';
+
+            if (positifs[key] >= negatifs[key]){
+                $(".panel-success .list-group").append($appendData);
+                nb_positif++;
+            } else if (positifs[key] < negatifs[key]) {
+                $(".panel-danger .list-group").append($appendData);
+                nb_negatif++;
+            }
+        });
+
+        if (nb_positif == 0) {
+            $(".panel-success .list-group").append($no_data);
+        }
+        if (nb_negatif == 0) {
+            $(".panel-danger .list-group").append($no_data);
+        }
+    </script>
+{% endblock %}

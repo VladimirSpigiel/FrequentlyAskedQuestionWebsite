@@ -1,0 +1,48 @@
+{% extends "AllotoolsFaqBundle:Admin:layout.html.twig" %}
+
+{% block entete %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {{ parent() }}
+{% endblock %}
+
+{% block general %}
+    {{ parent() }}
+    <div class="container">
+        <h3>Modifier le profil</h3>
+        {% for flashMessage in app.session.flashbag.get('erreur') %}
+            <div class="row col-sm-6 col-sm-offset-3">
+                <div class="alert alert-danger">
+                    {{ flashMessage }}
+                </div>
+            </div>
+        {% endfor %}
+        <div class="well col-sm-6 col-sm-offset-3">
+            <form method="post" class="text-left" role="form" {{ form_enctype(form) }}>
+                <div class="form-group">
+                    {{ form_errors(form.libelle) }}
+                    {{ form_label(form.libelle, 'Libellé') }}
+                    {{ form_widget(form.libelle, {'attr': {'class': 'form-control', 'placeholder': 'Nom du profil' }}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_errors(form.description) }}
+                    {{ form_label(form.description, 'Description') }}
+                    {{ form_widget(form.description, {'attr': {'class': 'form-control', 'placeholder': 'Description du profil' }}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_errors(form.role) }}
+                    {{ form_label(form.role, 'Roles') }}
+                    {{ form_widget(form.role, {'attr': {'class': 'form-control' }}) }}
+                </div>
+                {{ form_rest(form) }}
+                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-ok"></span> Modifier</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <a class="btn btn-default" href="{{ path('allotools_faq_manageprofiles') }}">Retour</a>
+    </div>
+{% endblock %}
+

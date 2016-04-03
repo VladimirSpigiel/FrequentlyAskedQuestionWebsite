@@ -1,0 +1,26 @@
+{% extends "AllotoolsFaqBundle::layout.html.twig" %}
+
+{% block titre %}
+    {{ parent() }} - Administration
+{% endblock %}
+
+{% block entete %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    <ul style="list-style: none;">
+        <li style="display: inline;"><a class="btn btn-default" href="{{ path('allotools_faq_manageusers') }}">Utilisateurs</a></li>
+        <li style="display: inline;"><a class="btn btn-default" href="{{ path('allotools_faq_manageprofiles') }}">Profils</a></li>
+        <li style="display: inline;"><a class="btn btn-default" href="{{ path('allotools_faq_manageservers') }}">Serveurs</a></li>
+        <li style="display: inline;"><a class="btn btn-default" href="{{ path('allotools_faq_manage_articles') }}">Articles</a></li>
+        <li style="display: inline;"><a class="btn btn-default" href="{{ path('allotools_faq_manage_categories') }}">Catégories</a></li>
+        <li style="display: inline;"><a class="btn btn-default" href="{{ path('allotools_faq_statistiques_articles') }}">Statistiques</a></li>
+    </ul>
+{% endblock %}
+
+{% block general %}
+    {{ parent() }}
+    <h2>Administration</h2>
+{% endblock %}
+

@@ -1,0 +1,20 @@
+{% extends "AllotoolsFaqBundle:Public:layout.html.twig" %}
+
+{% block entete %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {{ parent() }}
+{% endblock %}
+
+{% block general %}
+
+    <a class="btn btn-default" href="{{ path('allotools_faq_homepage') }}">Retour</a>
+    <div class="well h4">
+        {{ libelle }}
+    </div>
+    <a class="btn btn-success" href="{{ path('allotools_boucle_recherche',{ 'idFils': fils,'reponse':'oui','idArbre' : arbre }) }}">Oui</a>
+    -
+    <a class="btn btn-danger" href="{{ path('allotools_boucle_recherche', { 'idFils': fils,'reponse':'non','idArbre' : arbre }) }}">Non</a>
+{% endblock %}

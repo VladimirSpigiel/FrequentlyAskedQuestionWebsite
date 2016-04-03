@@ -1,0 +1,63 @@
+{% extends "AllotoolsFaqBundle:Admin:layout.html.twig" %}
+
+{% block entete %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {{ parent() }}
+{% endblock %}
+
+{% block general %}
+    {{ parent() }}
+    <a href="{{ path('allotools_faq_manage_questions_add') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Créer une question</a>
+    <h3>Liste des questions</h3>
+    <table class="table table-bordered table-striped table-hover text-left">
+        <thead class="bg-info">
+            <tr>
+                <th>Libéllé</th> <th class="text-center">Modifier</th> <th class="text-center">Supprimer</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for question in questions %}
+            <tr>
+                <td>{{ question.libelle }}</td>
+
+                <td class="text-center"><a href="{{ path('allotools_faq_manage_questions_edit', {'id' : question.id}) }}"><span class="glyphicon glyphicon-pencil text-warning"></span></a></td>
+                {% set trouve=0 %}
+                 {% for filsAct in fils %}
+                       {% if filsAct.question != null %}
+                           {% if filsAct.question.id == question.id %}
+                               {% set trouve=1 %}
+                           {% endif %}
+                       {% endif %}
+                 {% endfor %}
+
+
+                <td class="text-center">
+                            {% if(trouve==0) %}
+                                <a href="{{ path('allotools_faq_manage_questions_delete', {'id' : question.id}) }}"
+                                   onclick="return confirm('Attention, êtes-vous sûr de vouloir supprimer la question :  {{ question.libelle }} ?')">
+                                   <span class="glyphicon glyphicon-remove text-danger"></span>
+                                </a>
+                            {% else %}
+                                <span class="glyphicon glyphicon-question-sign text-info alertArbre" data-toggle="tooltip" data-placement="right" title="Cette question est présente dans un arbre"></span>
+                            {% endif %}
+                </td>
+             </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="alert">
+        <a class="btn btn-default" href="{{ path('allotools_faq_admin') }}">Retour</a>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function(){
+            $(".alertArbre").tooltip();
+        })
+    </script>
+{% endblock %}

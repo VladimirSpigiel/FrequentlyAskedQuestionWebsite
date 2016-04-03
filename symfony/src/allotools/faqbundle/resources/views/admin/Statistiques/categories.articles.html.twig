@@ -1,0 +1,59 @@
+{% extends "AllotoolsFaqBundle:Admin:layout.html.twig" %}
+
+
+    {% block entete %}
+        {{ parent() }}
+    {% endblock %}
+
+    {% block menu %}
+        {{ parent() }}
+
+    {% endblock %}
+
+    {% block general %}
+        {{ parent() }}
+        <p class="well h4">
+            Catégorie : {{ categorie.route }}
+        </p>
+        <div class="panel">
+            <div id="chartContainer">
+            </div>
+            <div id="noVue">
+            </div>
+        </div>
+        <div class="row">
+            <form method="post" action="{{ path('allotools_faq_statistiques_article_dans_categorie', { 'route': categorie.route }) }}">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="libelle" placeholder="Rechercher un article">
+                          <span class="input-group-btn">
+                            <button class="btn btn-info" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                          </span>
+                        </div><!-- /input-group -->
+                    </div><!-- /.col-lg-6 -->
+            </form>
+        </div>
+        <h2>Liste des articles</h2>
+        <table class="table table-bordered table-striped table-hover text-left">
+            <thead class="bg-info">
+                <tr>
+                    <th>Titre</th>
+                    <th>Auteur</th>
+                    <th class="col-sm-2 text-center">Statistiques</th>
+                    <!-- <td>Supprimer</td> -->
+                </tr>
+            </thead>
+            <tbody>
+                {% for article in articles %}
+                    <tr>
+                        <td>{{ article.titre }}</td>
+                        <td>{{ article.auteur }}</td>
+                        <td class="text-center"><a id="routeArticle{{ article.id }}" href="{{ path('allotools_faq_statistiques_articles_annee',{"route":categorie.route,"article":article.id}) }}"><span class="glyphicon glyphicon-stats"></span></a></td>
+                        <!--  <td><a href="Supprimer/{{ article.id }}">X</a></td> -->
+                        </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ path('allotools_faq_statistiques_categories')}}" class="btn btn-default">Retour</a>
+    {% endblock %}
+

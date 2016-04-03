@@ -1,0 +1,17 @@
+{% extends "AllotoolsFaqBundle:Public:layout.html.twig" %}
+
+{% block entete %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {{ parent() }}
+{% endblock %}
+
+{% block general %}
+
+    <p>
+        <a class="btn btn-default" href="{{ path('allotools_faq_homepage') }}">Retour</a>
+    </p>
+    {% include "AllotoolsFaqBundle:Public/Affiche/Article/Contenu:layout.html.twig" %}
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends "AllotoolsFaqBundle:Admin:layout.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/tooltip.css') }}" type="text/css"/>
+{% endblock %}
+
+{% block entete %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {{ parent() }}
+{% endblock %}
+
+{% block general %}
+    {{ parent() }}
+    <h3>Liste des utilisateurs</h3>
+    <table class="table table-bordered table-hover text-left">
+        <thead>
+        <tr class="bg-info">
+            <th>Pseudo</th>
+            <th>Email</th>
+            <th>Profil</th>
+            <th class="text-center">Modifier</th>
+            <th class="text-center">Supprimer</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for utilisateur in utilisateurs %}
+            <tr>
+                <td>{{ utilisateur.username }}</td>
+                <td>{{ utilisateur.email }}</td>
+
+                {% if utilisateur.profil %}
+                    <td> {{ utilisateur.profil.libelle }}
+                        <a href="#" class="role_tooltip" data-toggle="tooltip" data-placement="right"
+                           title="Description : {{ utilisateur.profil.description }}&#013;{% for role in utilisateur.profil.role %}{{ role }}&#013;{% endfor %}">?</a>
+                    </td>
+                {% else %}
+                    <td>Aucun profil</td>
+                {% endif %}
+                <td class="text-center">
+                    <a href="{{ path('allotools_faq_manageusersedit', {'id':utilisateur.id}) }}"><span
+                                class="glyphicon glyphicon-pencil text-warning"></span></a>
+                </td>
+                <td class="text-center">
+                    {% if utilisateur.id != 1 and utilisateur.id != app.user.id %}
+                        <a href="{{ path('allotools_faq_manageusersdelete', {'id':utilisateur.id}) }}"
+                           onclick="return confirm('Attention, êtes-vous sûr de vouloir supprimer l\'utilisateur {{ utilisateur.username }} ?')"><span
+                                    class="glyphicon glyphicon-remove text-danger"></span></a>
+                    {% else %}
+                        <span class="glyphicon glyphicon-ban-circle text-danger"></span>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a class="btn btn-default" href="{{ path('allotools_faq_admin') }}">Retour</a>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('.role_tooltip').tooltip({html: true});
+    </script>
+{% endblock %}

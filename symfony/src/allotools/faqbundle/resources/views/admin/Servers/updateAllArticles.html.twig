@@ -1,0 +1,40 @@
+{% extends "AllotoolsFaqBundle:Admin:layout.html.twig" %}
+
+{% block entete %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {{ parent() }}
+{% endblock %}
+
+{% block general %}
+    {{ parent() }}
+    <div class="row">
+        <div class="alert alert-success col-sm-6 col-sm-offset-3">
+            {% if nb_changes.nb_ajouts > 1 %}
+                <p><b>{{ nb_changes.nb_ajouts }}</b> articles ont été ajoutés</p>
+            {% elseif nb_changes.nb_ajouts == 1 %}
+                <p><b>{{ nb_changes.nb_ajouts }}</b> article a été ajouté</p>
+            {% endif %}
+            {% if nb_changes.nb_updates > 1 %}
+                <p><b>{{ nb_changes.nb_updates }}</b> articles ont été mis à jour</p>
+            {% elseif nb_changes.nb_updates == 1 %}
+                <p><b>{{ nb_changes.nb_updates }}</b> article a été mis à jour</p>
+            {% endif %}
+            {% if nb_changes.nb_deletes > 1 %}
+                <p><b>{{ nb_changes.nb_deletes }}</b> articles ont été supprimés</p>
+            {% elseif nb_changes.nb_deletes == 1 %}
+                <p><b>{{ nb_changes.nb_deletes }}</b> article a été supprimé</p>
+            {% endif %}
+            {% if nbArbreInactif > 1 %}
+                <p>Attention ! <b>{{ nbArbreInactif }}</b> arbres ont été désactivés</p>
+            {% elseif nbArbreInactif == 1 %}
+                <p>Attention ! <b>{{ nbArbreInactif }}</b> arbre a été désactivé</p>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <a class="btn btn-default" href="{{ path('allotools_faq_manageservers') }}">Retour</a>
+    </div>
+{% endblock %}

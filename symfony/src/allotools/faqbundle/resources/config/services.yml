@@ -1,0 +1,6 @@
+parameters:
+#    allotools_faq.example.class: Allotools\FaqBundle\Example
+
+services:
+    allotools_faq.majarticles:
+        class: Allotools\FaqBundle\Services\ServiceMajPHPMyFaq

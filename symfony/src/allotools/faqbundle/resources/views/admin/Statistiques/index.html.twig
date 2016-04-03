@@ -1,0 +1,80 @@
+{% extends "AllotoolsFaqBundle:Admin:layout.html.twig" %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/statistiques.css') }}" type="text/css"/>
+{% endblock %}
+
+    {% block entete %}
+        {{ parent() }}
+    {% endblock %}
+
+    {% block menu %}
+        {{ parent() }}
+    {% endblock %}
+
+    {% block general %}
+        {{ parent() }}
+        <p class="well h4">
+                Statistiques sur les avis des articles<br><br>
+                Année : {{ donnees.annee }}<br><br>
+                Total de votes : {{ donnees.votes }}, Tolal de vues : {{ donnees.vues }}
+            </p>
+            <div class="row">
+                <form method="post" action="{{ path('allotools_faq_statistiques_articles') }}" name="formDate">
+                    <div class="col-sm-2 col-sm-offset-5">
+                        <div class="form-group">
+                            <select class="form-control" name="annee" onChange="document.forms['formDate'].submit();">
+                                <option {% if(donnees.annee=="Toutes les années") %} selected {% endif %} value="{{ "Toutes les années" }}">Toutes les années</option>
+                                {% for i in donnees.anneeMin..donnees.anneeMax %}
+                                    <option {% if(donnees.annee==i) %} selected {% endif %} value="{{ i }}">{{ i }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        {% if(donnees.votes_positif == 0 and donnees.votes_negatif == 0) %}
+            <p>Aucuns votes</p>
+        {% elseif(donnees.votes_positif == 0 or donnees.votes_negatif == 0)%}
+            <p><b>Votes positifs : {{ donnees.votes_positif }} / Votes négatifs : {{ donnees.votes_negatif }}</b></p>
+        {% else %}
+            <div id="chartContainer" class="col-sm-12 chart"></div>
+        {% endif %}
+        <div class="row">
+            <div class="col-sm-4 col-sm-offset-4">
+                <a href="{{ path('allotools_faq_statistiques_categories') }}" class="btn btn-primary pull-left">Avis sur les catégories</a>
+                <a class="btn btn-default pull-right" href="{{ path('allotools_faq_admin') }}">Retour</a>
+            </div>
+        </div>
+    {% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        window.onload = function () {
+
+            var chart = new CanvasJS.Chart("chartContainer",
+                    {
+                        title:{
+                            text: "",
+                            verticalAlign: 'top',
+                            horizontalAlign: 'center'
+                        },
+                        data: [
+                            {
+                                type: "doughnut",
+                                startAngle:20,
+
+                                dataPoints: [
+
+                                    {  y: {{ donnees.votes_positif }}, label: "Votes positifs" },
+                                    {  y: {{ donnees.votes_negatif }}, label: "Votes négatifs" }
+                                ]
+                            }
+                        ]
+                    });
+            chart.render();
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>{% block titre %}Allotools{% endblock %}</title>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" type="text/css"/>
+    {% endblock %}
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                    data-target="#menu-gauche">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ path('allotools_faq_homepage') }}">AlloTools-FAQ</a>
+        </div>
+        {% if app.user %}
+            <p class="navbar-text">Connecté en tant que : <a
+                        href="{{ path('fos_user_profile_show') }}">{{ app.user.username }}</a>
+            </p>
+        {% endif %}
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="menu-gauche">
+            {% if is_granted("ROLE_ADMIN") %}
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Administration <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ path('allotools_faq_admin') }}">
+                                    <span class="glyphicon glyphicon-home"></span>
+                                    &nbsp;&nbsp; Interface Admin
+                                </a>
+                            </li>
+                            <li class="divider"></li>
+                            <li><a href="{{ path('allotools_faq_manageusers') }}">
+                                    <span class="glyphicon glyphicon-user"></span>
+                                    &nbsp;&nbsp; Utilisateurs
+                                </a>
+                            </li>
+                            <li><a href="{{ path('allotools_faq_manageprofiles') }}">
+                                    <span class="glyphicon glyphicon-wrench"></span>
+                                    &nbsp;&nbsp; Profils
+                                </a>
+                            </li>
+                            <li><a href="{{ path('allotools_faq_manageservers') }}">
+                                    <span class="glyphicon glyphicon-hdd"></span>
+                                    &nbsp;&nbsp; Serveurs
+                                </a>
+                            </li>
+                            <li><a href="{{ path('allotools_faq_manage_articles') }}">
+                                    <span class="glyphicon glyphicon-file"></span>
+                                    &nbsp;&nbsp; Articles
+                                </a>
+                            </li>
+                            <li><a href="{{ path('allotools_faq_manage_categories') }}">
+                                    <span class="glyphicon glyphicon-folder-open"></span>
+                                    &nbsp;&nbsp; Catégories
+                                </a>
+                            </li>
+                            <li><a href="{{ path('allotools_faq_statistiques_articles') }}">
+                                    <span class="glyphicon glyphicon-stats"></span>
+                                    &nbsp;&nbsp; Statistiques
+                                </a>
+                            </li>
+                            <li><a href="{{ path('allotools_faq_manage_arbres') }}">
+                                    <span class="glyphicon glyphicon-tree-deciduous"></span>
+                                    &nbsp;&nbsp; Arbres
+                                </a>
+                            </li>
+                            <li><a href="{{ path('allotools_faq_manage_questions') }}">
+                                    <span class="glyphicon glyphicon-question-sign"></span>
+                                    &nbsp;&nbsp; Questions
+                                </a>
+                            </li>
+                        </ul>
+
+                    </li>
+                </ul>
+            {% endif %}
+            <form class="navbar-form navbar-right" role="login">
+                {% if app.user is null %}
+                    <a href="{{ path('fos_user_security_login') }}" class="btn btn-primary">Se connecter</a>
+                {% else %}
+                    <a href="{{ path('fos_user_security_logout') }}" class="btn btn-danger">Se déconnecter</a>
+                {% endif %}
+            </form>
+            <form method="post" class="navbar-form navbar-right" role="search"
+                  action="{{ path('allotools_faq_search') }}">
+                <div class="form-group">
+                    <input type="text" name="keywords" class="form-control" placeholder="Mots clés" size="50">
+                </div>
+                <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span>
+                    Rechercher
+                </button>
+            </form>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container-fluid -->
+</nav>
+
+<div class="container">
+    <div class="row text-center">
+        {% block general %}
+        {% endblock %}
+    </div>
+    <hr>
+    <footer class="row text-center">
+        <p class="text-muted">SONN - BENSAID - CORDARY - SPIGIEL © 2014</p>
+    </footer>
+</div>
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery-ui.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/bootstrap.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/canvasjs.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/Chart.js') }}"></script>
+{% endblock %}
+
+</body>
+</html>

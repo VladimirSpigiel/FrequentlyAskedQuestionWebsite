@@ -1,0 +1,40 @@
+{% extends "TwigBundle::layout.html.twig" %}
+
+{% block head %}
+    <link rel="icon" sizes="16x16" href="{{ asset('favicon.ico') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/acmedemo/css/demo.css') }}" />
+{% endblock %}
+
+{% block title 'FOS User Bundle' %}
+
+    {% block body %}
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="flash-message">
+                <em>Notice</em>: {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+        {% block content_header %}
+            <ul id="menu">
+                {% block content_header_more %}
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                        {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                        <li><a href="{{ path('fos_user_security_logout') }}">
+                                {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                            </a></li>
+                        <li><a href="{{ path('fos_user_profile_edit') }}">Profile</a></li>
+                    {% else %}
+                        <li><a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                        </li>
+                        <li><a href="{{ path('fos_user_registration_register') }}">Register</a></li>
+                    {% endif %}
+                {% endblock %}
+            </ul>
+
+            <div style="clear: both"></div>
+        {% endblock %}
+
+        <div class="block">
+            {% block fos_user_content %}{% endblock %}
+        </div>
+    {% endblock %}

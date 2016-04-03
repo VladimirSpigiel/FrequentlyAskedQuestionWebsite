@@ -1,0 +1,210 @@
+allotools_faq_homepage:
+    pattern:  /
+    defaults: { _controller: AllotoolsFaqBundle:Default:index }
+
+allotools_faq_admin:
+    pattern:  /admin/
+    defaults: { _controller: AllotoolsFaqBundle:Admin:index }
+
+allotools_faq_updateall:
+    pattern: /admin/gestionServeurs/updateAll/
+    defaults: { _controller: AllotoolsFaqBundle:Server:updateAllArticles }
+
+#
+#     UTILISATEURS
+#
+allotools_faq_manageusers:
+    pattern: /admin/gestionUtilisateurs/
+    defaults: { _controller: AllotoolsFaqBundle:User:displayUsers }
+
+allotools_faq_manageusersedit:
+    pattern: /admin/gestionUtilisateurs/Modifier/{id}
+    defaults: { _controller: AllotoolsFaqBundle:User:editUser }
+
+allotools_faq_manageusersdelete:
+    pattern: /admin/gestionUtilisateurs/Supprimer/{id}
+    defaults: { _controller: AllotoolsFaqBundle:User:deleteUser }
+
+
+#
+#     PROFILS
+#
+allotools_faq_manageprofiles:
+    pattern: /admin/gestionProfils/
+    defaults: { _controller: AllotoolsFaqBundle:Profil:displayProfiles }
+
+allotools_faq_manageprofilesadd:
+    pattern: /admin/gestionProfils/Ajouter
+    defaults: { _controller: AllotoolsFaqBundle:Profil:addProfile }
+
+allotools_faq_manageprofilesedit:
+    pattern: /admin/gestionProfils/Modifier/{id}
+    defaults: { _controller: AllotoolsFaqBundle:Profil:editProfile }
+
+allotools_faq_manageprofilesdelete:
+    pattern: /admin/gestionProfils/Supprimer/{id}
+    defaults: { _controller: AllotoolsFaqBundle:Profil:deleteProfile }
+
+#
+#     SERVEURS
+#
+allotools_faq_manageservers:
+    pattern: /admin/gestionServeurs/
+    defaults: { _controller: AllotoolsFaqBundle:Server:displayServers }
+
+allotools_faq_manageserversadd:
+    pattern: /admin/gestionServeurs/Ajouter
+    defaults: { _controller: AllotoolsFaqBundle:Server:addServer }
+
+allotools_faq_manageserversedit:
+    pattern: /admin/gestionServeurs/Modifier/{id}
+    defaults: { _controller: AllotoolsFaqBundle:Server:editServer }
+
+allotools_faq_manageserversdelete:
+    pattern: /admin/gestionServeurs/Supprimer/{id}
+    defaults: { _controller: AllotoolsFaqBundle:Server:deleteServer }
+
+allotools_faq_manageserversupdate:
+    pattern: /admin/gestionServeurs/Update/{id}
+    defaults: { _controller: AllotoolsFaqBundle:Server:updateServer }
+
+#
+#     CATEGORIES    [ADMIN]
+#
+
+allotools_faq_manage_categories:
+    pattern: /admin/gestionCategories/
+    defaults: { _controller: AllotoolsFaqBundle:Categorie:displayCategories }
+
+allotools_faq_managecategories_add:
+    pattern: /admin/gestionCategories/Ajouter
+    defaults: { _controller: AllotoolsFaqBundle:Categorie:addCategory }
+
+allotools_faq_managecategoriesedit:
+    pattern: /admin/gestionCategories/Modifier/{id}
+    defaults: { _controller: AllotoolsFaqBundle:Categorie:editCategory }
+
+allotools_faq_managecategoriesdelete:
+    pattern: /admin/gestionCategories/Supprimer/{id}
+    defaults: { _controller: AllotoolsFaqBundle:Categorie:deleteCategory }
+
+#
+#     CATEGORIES    [PUBLIC]
+#
+
+allotools_faq_display_category_content:
+    pattern: /Categorie/{route}
+    defaults: { _controller: AllotoolsFaqBundle:Categorie:displayCategoryContent }
+
+#
+#     ARTICLES
+#
+
+allotools_faq_manage_articles:
+    pattern: /admin/gestionArticles/
+    defaults: { _controller: AllotoolsFaqBundle:Article:displayArticles }
+
+allotools_faq_manage_articles_edit:
+    pattern: /admin/gestionArticles/Modifier/{id}
+    defaults: { _controller: AllotoolsFaqBundle:Article:editArticle }
+
+
+#
+#     ARTICLES    [PUBLIC]
+#
+
+allotools_faq_display_article_content:
+    pattern: /Article/{id}
+    defaults: { _controller: AllotoolsFaqBundle:Article:displayArticleContent }
+
+allotools_faq_feedback_article:
+    pattern: /Article/{id}/Feedback/{bool}
+    defaults: { _controller: AllotoolsFaqBundle:Statistique:feedbackArticle }
+
+
+#
+#     Recherche
+#
+
+allotools_faq_search:
+    pattern: /recherche
+    defaults: { _controller: AllotoolsFaqBundle:Recherche:search}
+
+
+#
+#   ARBRE DECISIONNEL
+#
+
+allotools_question:
+    pattern: /question/{id}
+    defaults: { _controller: AllotoolsFaqBundle:Arbre:afficheQuestion }
+
+allotools_boucle_recherche:
+    pattern: /question/{idFils}/{reponse}/{idArbre}
+    defaults: { _controller: AllotoolsFaqBundle:Arbre:boucleRecherche }
+
+allotools_faq_manage_arbres:
+    pattern: /admin/gestionArbres/
+    defaults: { _controller: AllotoolsFaqBundle:Arbre:displayArbres }
+
+allotools_faq_manage_arbres_ajoute:
+    pattern: /admin/gestionArbres/Ajouter
+    defaults: { _controller: AllotoolsFaqBundle:Arbre:ajouteArbre }
+
+
+allotools_faq_manage_arbres_modifie:
+    pattern: /admin/gestionArbres/Modifier/{id}
+    defaults: { _controller: AllotoolsFaqBundle:Arbre:modifieArbre }
+
+allotools_faq_manage_arbres_supprime:
+    pattern: /admin/gestionArbres/Supprime/{id}
+    defaults: { _controller: AllotoolsFaqBundle:Arbre:supprimeArbre }
+
+allotools_faq_manage_arbres_construit:
+    pattern: /admin/gestionArbres/Construit/
+    defaults: { _controller: AllotoolsFaqBundle:Arbre:construitArbre }
+
+allotools_faq_manage_arbres_reconstruit:
+    pattern: /admin/gestionArbres/Reconstruit/
+    defaults: { _controller: AllotoolsFaqBundle:Arbre:reconstruitArbre }
+
+#
+#     STATISTIQUES
+#
+
+allotools_faq_statistiques_articles:
+    pattern: /admin/statistiques/
+    defaults: { _controller: AllotoolsFaqBundle:Statistique:statistiquesArticles}
+
+allotools_faq_statistiques_categories:
+    pattern: /admin/statistiques/categories/
+    defaults: { _controller: AllotoolsFaqBundle:Statistique:statistiquesCategories}
+
+allotools_faq_statistiques_article_dans_categorie:
+    pattern: /admin/statistiques/categorie/{route}/
+    defaults: { _controller: AllotoolsFaqBundle:Statistique:statistiquesArticlesDansCategorie}
+
+
+allotools_faq_statistiques_articles_annee:
+    pattern: /admin/statistiques/categorie/article/{route}/{article}/
+    defaults: { _controller: AllotoolsFaqBundle:Statistique:statistiquesArticlesDansCategorieAnnee}
+
+#
+#     QUESTION
+#
+
+allotools_faq_manage_questions:
+    pattern: /admin/gestionQuestions/
+    defaults: { _controller: AllotoolsFaqBundle:Question:displayQuestions }
+
+allotools_faq_manage_questions_add:
+    pattern: /admin/gestionQuestions/Ajouter
+    defaults: { _controller: AllotoolsFaqBundle:Question:addQuestion }
+
+allotools_faq_manage_questions_edit:
+    pattern: /admin/gestionQuestions/Modifier/{id}
+    defaults: { _controller: AllotoolsFaqBundle:Question:editQuestion }
+
+allotools_faq_manage_questions_delete:
+    pattern: /admin/gestionQuestions/Supprimer/{id}
+    defaults: { _controller: AllotoolsFaqBundle:Question:deleteQuestion }

@@ -1,0 +1,44 @@
+{% extends "AllotoolsFaqBundle:Admin:layout.html.twig" %}
+
+{% block entete %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {{ parent() }}
+{% endblock %}
+
+{% block general %}
+    {{ parent() }}
+    <a href="{{ path('allotools_faq_manageserversadd') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter un serveur</a>
+    <a class="btn btn-primary" href="{{ path('allotools_faq_updateall') }}"><span class="glyphicon glyphicon-repeat"></span> Mettre tous les serveurs à jour</a>
+    <h3>Liste des serveurs</h3>
+    <table class="table table-bordered table-striped table-hover text-left">
+        <thead class="bg-info">
+            <tr>
+                <th>Libéllé</th> <th>Hôte</th> <th>Login</th> <th>Mot de passe</th> <th>Nom de la bdd</th> <th>Table</th>
+                <th>Type de bdd</th> <th>Service à instancier</th> <th class="text-center">Modifier</th> <th class="text-center">Supprimer</th> <th class="text-center">Mettre à jour</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for server in serveurs %}
+            <tr>
+                <td>{{ server.lib }}</td>
+                <td>{{ server.host }}</td>
+                <td>{{ server.user }}</td>
+                <td>{{ server.pwd }}</td>
+                <td>{{ server.dbname }}</td>
+                <td>{{ server.tbname }}</td>
+                <td>{{ server.typebdd }}</td>
+                <td>{{ server.typeservice }}</td>
+                <td class="text-center"><a href="{{ path('allotools_faq_manageserversedit', {'id' : server.id}) }}"><span class="glyphicon glyphicon-pencil text-warning"></span></a></td>
+                <td class="text-center"><a href="{{ path('allotools_faq_manageserversdelete', {'id' : server.id}) }}" onclick="return confirm('Attention, êtes-vous sûr de vouloir supprimer le serveur {{ server.lib }} ?')"><span class="glyphicon glyphicon-remove text-danger"></span></a></td>
+                <td class="text-center"><a href="{{ path('allotools_faq_manageserversupdate', {'id' : server.id}) }}"><span class="glyphicon glyphicon-refresh text-success"></span></a></td>
+             </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="alert">
+        <a class="btn btn-default" href="{{ path('allotools_faq_admin') }}">Retour</a>
+    </div>
+{% endblock %}

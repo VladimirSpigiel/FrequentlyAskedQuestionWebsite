@@ -1,0 +1,38 @@
+.panel.panel-success .panel-heading{
+    background-color: #5cb85c;
+    color:#FFF;
+    font-size: 20px;
+}
+
+.panel.panel-warning .panel-heading{
+    background-color: #f0ad4e;
+    color:#FFF;
+    font-size: 20px;
+}
+
+.panel.panel-danger .panel-heading{
+    background-color: #d9534f;
+    color:#FFF;
+    font-size: 20px;
+}
+
+.chart > * {
+    margin: 0;
+    padding: 0;
+    width: 0;
+    height: 0;
+    display: block;
+    position: relative;
+    top: 0;
+    left: 0;
+    text-align: left;
+}
+
+.chart {
+    padding: 0;
+    height: 250px;
+}
+
+.panel-link {
+    cursor: pointer;
+}

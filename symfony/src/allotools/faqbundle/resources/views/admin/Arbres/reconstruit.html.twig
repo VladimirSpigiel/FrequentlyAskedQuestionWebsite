@@ -1,0 +1,313 @@
+{% extends "AllotoolsFaqBundle:Admin:layout.html.twig" %}
+
+    {% block stylesheets %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('css/statistiques.css') }}" type="text/css"/>
+        <link rel="stylesheet" href="{{ asset('css/jquery.jOrgChart.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('css/custom.css') }}"/>
+        <link href="{{ asset('css/prettify.css') }}" type="text/css" rel="stylesheet"/>
+        <link rel="stylesheet" href="{{ asset('css/jquery.fancybox.css') }}" type="text/css"/>
+    {% endblock %}
+
+    {% block entete %}
+        {{ parent() }}
+    {% endblock %}
+
+    {% block menu %}
+        {{ parent() }}
+    {% endblock %}
+
+    {% block general %}
+        {{ parent() }}
+
+    <br>
+    <h3>Modification de l'arbre</h3>
+
+    <ul id="org" style="display:none">
+    </ul>
+
+    <div id="chart" class="orgChart"></div>
+    <div id="fancy" style='display:none;'>
+        <form action="." method="post" id="add_node_form" class="well">
+            <h3>Nouveau noeud</h3>
+            <span class="erreur" style="color: #F33;"></span>
+            <br>
+            <label for="etat">
+                Selectionnez un état pour cet enfant [ Oui, Non ] puis une question ou un article
+            </label>
+
+            <div class="form-group">
+                <label class="radio-inline">
+                    <input type="radio" name="Etat" value="Oui" id="etat" checked>Oui
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="Etat" value="Non" id="etat">Non
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="question">Selectionnez une question pour ce noeud :</label>
+                <select name="question" id="question" class="form-control question">
+                    <option value="">Selectionnez une question</option>
+                    {% for question in questions %}
+                        <option value="{{ question.id }}">{{ question.libelle }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="article">Ou selectionnez un article pour ce noeud :</label>
+                <select class="article form-control" id="article" name="article">
+                    <option value="">Selectionnez un article</option>
+                    {% for article in articles %}
+                        <option value="{{ article.id }}">{{ article.titre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button id="add_node" class="btn btn-success">Ajouter</button>
+        </form>
+    </div>
+
+    <div id="fancy_edit" style='display:none;'>
+        <form action="." method="post" id="edit_node_form" class="well">
+            <h3>Modifier ce noeud</h3>
+            <span class="erreur" style="color: #F33;"></span>
+            <br>
+            <label for="etat">
+                Selectionnez un état pour cet enfant [ Oui, Non ] puis une question ou un article
+            </label>
+
+            <div class="form-group">
+                <label class="radio-inline">
+                    <input type="radio" name="Etat" value="Oui" id="etat" checked>Oui
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="Etat" value="Non" id="etat">Non
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="question">Selectionnez une question pour ce noeud :</label>
+                <select name="question" id="question" class="form-control question">
+                    <option value="">Selectionnez une question</option>
+                    {% for question in questions %}
+                        <option value="{{ question.id }}">{{ question.libelle }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="article">Ou selectionnez un article pour ce noeud :</label>
+                <select class="article form-control" id="article" name="article">
+                    <option value="">Selectionnez un article</option>
+                    {% for article in articles %}
+                        <option value="{{ article.id }}">{{ article.titre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <button id="edit_node" class="btn btn-warning">Modifier</button>
+        </form>
+    </div>
+
+    <button class="btn btn-warning submit">
+        <span class="glyphicon glyphicon-edit"></span> Modifier l'arbre
+    </button>
+    <a href="{{ path('allotools_faq_manage_arbres') }}" class="btn btn-default"
+       style="margin-left: 20px;">Retour</a>
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/jquery.jOrgChart.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/prettify.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/jquery.fancybox.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/custom.tree.js') }}"></script>
+    <script>
+        function functiontofindIndexByKeyValue(arraytosearch, key, valuetosearch) {
+
+            for (var i = 0; i < arraytosearch.length; i++) {
+
+                if (arraytosearch[i][key] == valuetosearch) {
+                    return i;
+                }
+            }
+            return null;
+        }
+
+        $(document).ready(function () {
+
+            var filsJSON = $.parseJSON('{{ json|raw }}')
+
+            id_primary = filsJSON[filsJSON.length - 1]["id"] + 1;
+
+            var id_arbre = "{{ arbre }}";
+
+
+            $('#org').append("<li class='root' data-type='init' data-id-etat='{{ questionPrincipale.id }}' data-id='0' data-lib='{{ libelle }}' data-categ='{{ categorie.id }}' data-fils-oui='" + filsJSON[0]["oui"] + "' data-fils-non='" + filsJSON[0]["non"] + "'>" +
+                    "<span class='label_node'>{{ questionPrincipale.libelle }}</span>" +
+                    "</li>");
+
+            filsJSON.forEach(function (value, index) {
+
+                if (value["type"] == "question") {
+
+                    var $nodeParent = value;
+                    var $nodeFilsOui = filsJSON[functiontofindIndexByKeyValue(filsJSON, "id", $nodeParent['oui'])];
+                    var $nodeFilsNon = filsJSON[functiontofindIndexByKeyValue(filsJSON, "id", $nodeParent['non'])];
+
+                    /*   Creer le Noeud */
+                    $('#org').find("li[data-fils-oui=" + value['oui'] + "]").append("<ul></ul>")
+
+                    /*   Creer le Fils Oui dans le Noeud */
+                    if ($nodeFilsOui != null)
+                        if ($nodeFilsOui['type'] == "question")
+                            $('#org').find("li[data-fils-oui=" + value['oui'] + "] ul").append("" +
+
+                                    "<li class='child root_" + $nodeFilsOui['id'] + " Oui' data-etat='Oui' data-type='question' data-id='" + $nodeFilsOui['id'] + "' data-id-etat='" + $nodeFilsOui['id-type'] + "' data-fils-oui='" + $nodeFilsOui['oui'] + "' data-fils-non='" + $nodeFilsOui['non'] + "'>" +
+                                    "<span><h4>QUESTION</h4>" + $nodeFilsOui['content-type'] + "</span>" +
+                                    "</li>"
+
+                            )
+                        else
+                            $('#org').find("li[data-fils-oui=" + value['oui'] + "] ul").append("" +
+
+                                    "<li class='child root_" + $nodeFilsOui['id'] + " Oui' data-etat='Oui' data-type='article' data-id='" + $nodeFilsOui['id'] + "' data-id-etat='" + $nodeFilsOui['id-type'] + "' data-fils-oui='" + $nodeFilsOui['oui'] + "' data-fils-non='" + $nodeFilsOui['non'] + "'>" +
+                                    "<span><h4>ARTICLE</h4>" + $nodeFilsOui['content-type'] + "</span>" +
+                                    "</li>"
+
+                            )
+                    /*   Creer le Fils Non dans le Noeud */
+                    if ($nodeFilsNon != null)
+                        if ($nodeFilsNon['type'] == "question")
+                            $('#org').find("li[data-fils-oui=" + value['oui'] + "] ul").append("" +
+
+                                    "<li class='child root_" + $nodeFilsNon['id'] + " Non' data-etat='Non' data-type='question' data-id='" + $nodeFilsNon['id'] + "' data-id-etat='" + $nodeFilsNon['id-type'] + "' data-fils-oui='" + $nodeFilsNon['oui'] + "' data-fils-non='" + $nodeFilsNon['non'] + "'>" +
+                                    "<span><h4>QUESTION</h4>" + $nodeFilsNon['content-type'] + "</span>" +
+                                    "</li>"
+
+                            )
+                        else
+                            $('#org').find("li[data-fils-oui=" + value['oui'] + "] ul").append("" +
+
+                                    "<li class='child root_" + $nodeFilsNon['id'] + " Non' data-etat='Non' data-type='article' data-id='" + $nodeFilsNon['id'] + "' data-id-etat='" + $nodeFilsNon['id-type'] + "' data-fils-oui='" + $nodeFilsNon['oui'] + "' data-fils-non='" + $nodeFilsNon['non'] + "'>" +
+                                    "<span><h4>ARTICLE</h4>" + $nodeFilsNon['content-type'] + "</span>" +
+                                    "</li>"
+
+                            )
+
+                }
+            })
+
+            $('.submit').click(function () {
+
+
+                var hierarchy = [];
+                var valid = true;
+
+                $("#org li").each(function () {
+                    var type = $(this).attr("data-type");
+                    var name = $(this).clone().children().remove().end().text();
+
+                    var hid = $(this).parents("li");
+
+                    if (!$(this).hasClass("temp")) {
+
+
+                        var fils = new Object();
+
+                        fils.type = type;
+                        fils.id_primary = $(this).attr("data-id")
+                        fils.id_etat = $(this).attr("data-id-etat")
+
+                        if (hid.length != 0) {
+                            fils.id_foreign = $(this).parents("li[class='" + type + "']").attr("data-id")
+                        }
+
+                        else {
+                            fils.id_foreign = null;
+                            fils.lib = $(this).attr("data-lib")
+                            fils.cat = $(this).attr("data-categ")
+                        }
+
+
+                        if (fils.id_etat == "null") {
+                            valid = false;
+                            var classes = $(this).attr('class');
+                            var classesSplitted = classes.split(" ");
+
+                            if (hid.length == 0)
+                                $("." + classesSplitted[0]).effect("highlight", 300)
+                            else
+                                $("." + classesSplitted[1]).effect("highlight", 300)
+                        }
+
+                        if (type != "article") {
+
+
+                            fils.oui = $(this).find('> ul > li[data-etat="Oui"]').attr("data-id");
+                            fils.non = $(this).find('> ul > li[data-etat="Non"]').attr("data-id");
+
+
+                            if (fils.oui == undefined || fils.non == undefined) {
+                                $('.erreur').html("Il manque des noeuds dans votre arbre !");
+
+                                valid = false;
+
+
+                                var classes = $(this).attr('class');
+                                var classesSplitted = classes.split(" ");
+
+                                if (hid.length == 0)
+                                    $("." + classesSplitted[0]).effect("highlight", 300)
+                                else
+                                    $("." + classesSplitted[1]).effect("highlight", 300)
+
+
+                            }
+                        } else {
+                            fils.oui = null;
+                            fils.non = null;
+                        }
+
+
+                        hierarchy.push(fils);
+                    }
+
+                });
+
+                if (valid == true) {
+
+                    $.ajax({
+                        data: {data: hierarchy, arbre: id_arbre},
+                        type: "POST",
+                        url: "{{ path('allotools_faq_manage_arbres_reconstruit') }}",
+                        dataType: "json",
+                        beforeSend: function () {
+                            $('.submit').prop("disabled", true);
+                        },
+                        success: function (data) {
+                            if (data.valid == true) {
+                                window.location.replace("{{ path('allotools_faq_manage_arbres') }}");
+                            }
+                        },
+                        error: function (a, b, c) {
+                            $('.submit').prop("disabled", false);
+                            // console.log(a,b,c)
+                        }
+                    })
+
+                }
+            })
+        })
+    </script>
+{% endblock %}
+
+
+
+
+
+

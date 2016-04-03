@@ -1,0 +1,52 @@
+{% extends "AllotoolsFaqBundle:Admin:layout.html.twig" %}
+
+{% block entete %}
+    {{ parent() }}
+{% endblock %}
+
+{% block menu %}
+    {{ parent() }}
+{% endblock %}
+
+{% block general %}
+    {{ parent() }}
+    <div class="container">
+        <h3>Créer une catégorie</h3>
+        {% for flashMessage in app.session.flashbag.get('erreur') %}
+            <div class="row col-sm-6 col-sm-offset-3">
+                <div class="alert alert-danger">
+                    {{ flashMessage }}
+                </div>
+            </div>
+        {% endfor %}
+        <div class="well col-sm-6 col-sm-offset-3">
+            <form method="post" class="text-left" role="form" {{ form_enctype(form) }}>
+                <div class="form-group">
+                    {{ form_errors(form.lib) }}
+                    {{ form_label(form.lib, 'Libellé') }}
+                    {{ form_widget(form.lib, {'attr': {'class': 'form-control', 'placeholder': 'Nom de la catégorie' }}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_errors(form.route) }}
+                    {{ form_label(form.route, 'Route') }}
+                    {{ form_widget(form.route, {'attr': {'class': 'form-control', 'placeholder': 'Nom de la route' }}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_errors(form.profil) }}
+                    {{ form_label(form.profil, 'Profils') }}
+                    {{ form_widget(form.profil, {'attr': {'class': 'form-control' }}) }}
+                </div>
+                <div class="checkbox">
+                    {{ form_errors(form.public) }}
+                    {{ form_label(form.public, 'Publique') }}
+                    {{ form_widget(form.public) }}
+                </div>
+                {{ form_rest(form) }}
+                <button type="submit" class="btn btn-success"><span class="glyphicon glyphicon-plus-sign"></span> Ajouter</button>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <a class="btn btn-default" href="{{ path('allotools_faq_manage_categories') }}">Retour</a>
+    </div>
+{% endblock %}
