@@ -3,7 +3,7 @@ This project was done during my professional degree in computer science and has 
 The goal was to help the company to better understand the problems faced by customers on their websites.
 
 Technologies : 
- - JQuery ((Ajax call - Animations)
+ - JQuery (Ajax call - Animations)
  - Bootstrap 3
  - Symfony2 (PHP Framework)
  - CSS3
